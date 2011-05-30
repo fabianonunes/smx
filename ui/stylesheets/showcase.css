@@ -18,3 +18,11 @@ h2 {
   background: #fff;
   color: #f00;
 }
+#ls {
+  border: 1px solid #f00;
+  background: rgba(255,255,255,0.5);
+  width: 200px;
+  height: 300px;
+  overflow-y: hidden;
+  position: relative;
+}

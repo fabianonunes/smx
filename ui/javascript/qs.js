@@ -21,6 +21,8 @@ head.js(
 
 			if (val == lastVal) return;
 
+			self.selectedIndex = -1;
+
 			lastVal = val;
 
 			var cache = {}
@@ -84,23 +86,30 @@ head.js(
 
 			selectedIndex: -1,
 
-			markSelected: function(n) {
+			moveSelected: function(v) {
 
-				var it = $('#ls li');
+				var n = this.selectedIndex + v
+				, it = $('#ls li');
 
 				n = (n >= it.length) ? 0 : (n < 0) ? it.length - 1 : n;
 
 				this.selectedIndex = n;
 
+				if(n == 0){
+					ls.scrollTop(0);
+				} else if(n == it.length - 1){
+					ls.scrollTop(ls.height());
+				}
+
 				it.removeClass('selected');
 
-				$(it[n]).addClass('selected');
+				var selected = $(it[n]).addClass('selected');
+
+				if(v*selected.position().top > v*120){
+					ls.scrollTop(ls.scrollTop() + it.first().height() * v);
+				}
 
 			},
-
-			moveSelected: function(n) {
-				this.markSelected(this.selectedIndex+n);
-			}
 
 		}
 
