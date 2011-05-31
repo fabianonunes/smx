@@ -12,10 +12,12 @@ head.js(
 		var fragment = document.createDocumentFragment()
 			, qs = $('#qs')
 			, ls = $('#ls')
+			, panel = $('#panel')
 			, lastVal;
 
+		ls.parent().height($('li', ls).outerHeight() * 9);
 
-		qs.keyup(function(evt){
+		qs.keyup(function(){
 
 			var val = qs.val();
 
@@ -29,7 +31,10 @@ head.js(
 				, r = _.sortBy(data, function(v){
 
 				if(!cache[v.nome])
-					cache[v.nome] = LiquidMetal.score(v.nome, val); 
+					cache[v.nome] = LiquidMetal.score(v.nome, val);
+
+				//TODO: normalizar texto ao pontuar para
+				//permitir strings acentuadas
 
 				return -cache[v.nome] + ~(v.type == '/categoria');
 
@@ -47,13 +52,15 @@ head.js(
 
 			ls.empty().append(fragment);
 
+			self.moveSelected(1);
+
 		}).keydown(function(event) {
 
 			switch (event.keyCode) {
 
 				case 9:  // tab
-					//self.pickSelected();
-					//self.hide();
+					event.preventDefault();
+					self.goToSelected();
 					break;
 				case 33: // pgup
 					event.preventDefault();
@@ -91,25 +98,53 @@ head.js(
 				var n = this.selectedIndex + v
 				, it = $('#ls li');
 
-				n = (n >= it.length) ? 0 : (n < 0) ? it.length - 1 : n;
+				if (it.length == 0) return;
 
-				this.selectedIndex = n;
+				n = (n >= it.length) ? 0 : (n < 0) ? it.length - 1 : n;
 
 				if(n == 0){
 					ls.scrollTop(0);
 				} else if(n == it.length - 1){
-					ls.scrollTop(ls.height());
+					ls.scrollTop(ls.prop('scrollHeight'));
 				}
 
 				it.removeClass('selected');
 
 				var selected = $(it[n]).addClass('selected');
 
-				if(v*selected.position().top > v*120){
-					ls.scrollTop(ls.scrollTop() + it.first().height() * v);
+				if(v * selected.position().top > v/2 * (ls.height() - selected.outerHeight())){
+					ls.scrollTop(ls.scrollTop() + selected.outerHeight() * v);
 				}
 
+				this.selectedIndex = n;
+
+				this.renderSelected();
+
 			},
+
+			renderSelected: function(){
+				
+				var id = $('li.selected').attr('id');
+
+				var obj = _.detect(data, function(v){
+					return v.id == id;
+				});
+
+				panel.empty().append(ich.servidor(obj));
+
+			},
+
+			goToSelected: function(){
+				
+				ls.animate({
+					textIndent: -ls.width()
+				}, function(){
+					$(this).css({
+						textIndent: 0
+					});
+				});
+
+			}
 
 		}
 

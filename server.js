@@ -25,6 +25,7 @@ require('./lib/setup.js').setup({
 		  models:		path.join(root, 'app', 'models')
 		, views:		path.join(root, 'app', 'views')
 		, root:			path.join(root, 'ui')
+		, images:		path.join(root, 'ui/images')
 		, controllers:	path.join(root, 'app', 'controllers')
 	}
 	// redis:	require('redis-client').createClient(),

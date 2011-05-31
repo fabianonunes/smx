@@ -1,6 +1,8 @@
 
 @import 'nib'
 
+global-reset()
+
 html
 	height 100%
 	box-shadow(0px 5px 15px rgba(#222, 100%) inset)
@@ -17,16 +19,34 @@ h2
 	text-shadow #000 1px 1px 1px
 	font 50pt 'Francois One'
 
-.selected
-	background white
-	color red
-
-#ls
-	border 1px solid red
-	background rgba(white, 0.5)
+div.wp
+	border 5px solid white
 	width 200px
-	height 300px
+	height 208px
+	float left
+	margin 5px
+	box-shadow 0 0 10px #000
+	position relative
+	
+#ls, #panel
+	box-shadow 0 0 2px #999
+	background rgba(white, 0.5)
+	height 100%
 	overflow-y hidden
 	position relative
 
-		
+	& li
+		color black
+		padding 12px 5px
+		border 1px solid #ddd
+		border-width 0 0 1px
+		background linear-gradient(top, #fdfdfd, #f0f0f0 50%, #e3e3e3 50%, #e9e9e9 50%, #eee)
+		font 10pt 'Ubuntu'
+		text-transform lowercase
+		&.selected
+			color white
+			box-shadow 0px 1px 1px rgba(#fff, 0.35) inset, -1px -1px 1px rgba(#fff, 0.35) inset, 0px 1px 1px rgba(#000, 1) inset
+			background linear-gradient(top, #0e8bce 20%, #025986);
+			text-shadow #000 1px 1px 1px
+			border-color #444
+			border-width 0 0 1px
